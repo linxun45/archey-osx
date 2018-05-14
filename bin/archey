@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# archey-osx 1.6.1 (https://github.com/obihann/archey-osx/)
+# archey-osx 1.6.0 (https://github.com/obihann/archey-osx/)
 
 # test to see if bash supports arrays
 arraytest[0]='test' || (echo 'Error: Arrays are not supported in this version of
@@ -37,12 +37,9 @@ do
       ;;
     -o|--offline)
         opt_offline=t
-        ;;
-    -l|--localip)
-		opt_localip=t
       ;;
     -h|--help)
-      echo "Archey OS X 1.6.1"
+      echo "Archey OS X 1.6.0"
       echo
       echo "Usage: $0 [options]"
       echo
@@ -51,7 +48,6 @@ do
       echo "  -b --nocolor   Turn color off."
       echo "  -c --color     Force the color on (overrides --nocolor)."
       echo "  -o --offline   Disable the IP address check."
-      echo "  -l --localip   Show local IP adddress"
       exit 0
       ;;
     *)
@@ -63,53 +59,19 @@ do
 done
 
 # System Variables
-user=$(whoami)
-hostname=$(hostname | sed 's/.local//g')
-
-# v4 and v6 address detection
-if [[ "${opt_offline}" = f ]]; then
-    ipfile4="${HOME}/.archey-ipv4"
-    ipfile6="${HOME}/.archey-ipv6"
-    if [ -a "$ipfile4" ] && test `find "$ipfile4" -mmin -360`; then
-        while read -r line; do
-            V4="$line"
-        done < "$ipfile4"
-    else
-        if V4=$(curl -sS --max-time 5 https://4.ifcfg.me/ 2>/dev/null); then
-            echo $V4 > "$ipfile4"
-        fi
-    fi
-    if [ -a "$ipfile6" ] && test `find "$ipfile6" -mmin -360`; then
-        while read -r line; do
-            V6="$line"
-        done < "$ipfile6"
-    else
-        if V6=$(curl -sS --max-time 5 https://6.ifcfg.me/ 2>/dev/null); then
-            echo $V6 > "$ipfile6"
-        fi
-    fi
-fi
-
-if [[ "${opt_localip}" = t ]]; then
-	# Get the interface used for the default route
-	activeadapter=$(route -n get 0.0.0.0 | awk '/interface: / {print $2}')
-	# Now get the IP address assigned to that interface
-	localip=$(ifconfig ${activeadapter} | awk '/inet / {print $2}')
-fi
-
-distro="macOS $(sw_vers -productVersion)"
-kernel=$(uname)
-uptime=$(uptime 2> /dev/null | sed -e 's/.*up\s*//' -e 's/,\s*[0-9]* user.*//')
-shell="$SHELL"
-terminal="$TERM ${TERM_PROGRAM//_/ }"
-cpu=$(sysctl -n machdep.cpu.brand_string)
-battery=$(ioreg -c AppleSmartBattery -r | awk '$1~/Capacity/{c[$1]=$3} END{OFMT="%.2f%"; max=c["\"MaxCapacity\""]; if (max>0) { print 100*c["\"CurrentCapacity\""]/max;} }')
-
-# removes (R) and (TM) from the CPU name so it fits in a standard 80 window
-cpu=$(echo "$cpu" | awk '$1=$1' | sed 's/([A-Z]\{1,2\})//g')
-
-ram="$(( $(sysctl -n hw.memsize) / 1024 ** 3  )) GB"
-disk=$(df | head -2 | tail -1 | awk '{print $5}')
+User=$(whoami)
+Hostname=$(hostname | sed 's/.local//g')
+Date=$(date)
+IP=`echo $(ifconfig | grep 'inet.*netmask.*broadcast') | awk '{print $2}'`
+System_version="$(sw_vers -productName) $(sw_vers -productVersion) $(sw_vers -buildVersion)"
+Kernel_version="$(uname) $(uname -r)"
+Uptime=$(uptime | sed 's/.*up \([^,]*\), .*/\1/')
+Shell="$SHELL"
+Terminal="$TERM ${TERM_PROGRAM//_/ }"
+Cpu=$(sysctl -n machdep.cpu.brand_string)
+Battery=$(ioreg -c AppleSmartBattery -r | awk '$1~/Capacity/{c[$1]=$3} END{OFMT="%.2f%%"; max=c["\"MaxCapacity\""]; if (max>0) { print 100*c["\"CurrentCapacity\""]/max;} }')
+Ram="$(( $(sysctl -n hw.memsize) / 1024 ** 3  )) GB"
+Disk=$(df | head -2 | tail -1 | awk '{print $5}')
 
 
 # Set up colors if:
@@ -127,46 +89,21 @@ then
   normal=$(tput    sgr0 2>/dev/null)
 fi
 
-case "${packager}" in
-  homebrew)
-    packagehandler=$(brew list -1 | wc -l | awk '{print $1 }')
-    ;;
-  macports)
-    packagehandler=$(port installed | wc -l | awk '{print $1 }')
-    ;;
-  *)
-    packagehandler=0
-    ;;
-esac
-
-fieldlist[${#fieldlist[@]}]="${textColor}User:${normal} ${user}${normal}"
-fieldlist[${#fieldlist[@]}]="${textColor}Hostname:${normal} ${hostname}${normal}"
-fieldlist[${#fieldlist[@]}]="${textColor}Distro:${normal} ${distro}${normal}"
-fieldlist[${#fieldlist[@]}]="${textColor}Kernel:${normal} ${kernel}${normal}"
-fieldlist[${#fieldlist[@]}]="${textColor}Uptime:${normal} ${uptime}${normal}"
-fieldlist[${#fieldlist[@]}]="${textColor}Shell:${normal} ${shell}${normal}"
-fieldlist[${#fieldlist[@]}]="${textColor}Terminal:${normal} ${terminal}${normal}"
-if [ ${packagehandler} -ne 0 ]; then
-    fieldlist[${#fieldlist[@]}]="${textColor}Packages:${normal} ${packagehandler}${normal}"
+fieldlist[${#fieldlist[@]}]="${textColor}用户名  :${normal} ${User}${normal}"
+fieldlist[${#fieldlist[@]}]="${textColor}主机名  :${normal} ${Hostname}${normal}"
+fieldlist[${#fieldlist[@]}]="${textColor}操作系统:${normal} ${System_version}${normal}"
+fieldlist[${#fieldlist[@]}]="${textColor}内核版本:${normal} ${Kernel_version}${normal}"
+fieldlist[${#fieldlist[@]}]="${textColor}运行时间:${normal} ${Uptime}${normal}"
+fieldlist[${#fieldlist[@]}]="${textColor}Shell   :${normal} ${Shell}${normal}"
+fieldlist[${#fieldlist[@]}]="${textColor}当前终端:${normal} ${Terminal}${normal}"
+fieldlist[${#fieldlist[@]}]="${textColor}当前时间:${normal} ${Date}${normal}"
+fieldlist[${#fieldlist[@]}]="${textColor}处理器  :${normal} ${Cpu}${normal}"
+fieldlist[${#fieldlist[@]}]="${textColor}内存容量:${normal} ${Ram}${normal}"
+fieldlist[${#fieldlist[@]}]="${textColor}磁盘剩余:${normal} ${Disk}${normal}"
+if [[ ! -z $Battery ]]; then
+    fieldlist[${#fieldlist[@]}]="${textColor}电量剩余:${normal} ${Battery}${normal}%"
 fi
-fieldlist[${#fieldlist[@]}]="${textColor}CPU:${normal} ${cpu}${normal}"
-fieldlist[${#fieldlist[@]}]="${textColor}Memory:${normal} ${ram}${normal}"
-fieldlist[${#fieldlist[@]}]="${textColor}Disk:${normal} ${disk}${normal}"
-if [[ ! -z $battery ]]; then
-    fieldlist[${#fieldlist[@]}]="${textColor}Battery:${normal} ${battery}%${normal}"
-fi
-# Texts had to be shortend to fit in 80 window
-if [ "${opt_offline}" = f ]; then
-    if [ ! -z "$V4" ]; then
-      fieldlist[${#fieldlist[@]}]="${textColor}IPv4:${normal} ${V4}${normal}"
-    fi
-    if [ ! -z "$V6" ]; then
-      fieldlist[${#fieldlist[@]}]="${textColor}IPv6:${normal} ${V6}${normal}"
-    fi
-fi
-if [ "${opt_localip}" = t ]; then
-	fieldlist[${#fieldlist[@]}]="${textColor}Local IP:${normal} ${localip}${normal}"
-fi
+fieldlist[${#fieldlist[@]}]="${textColor}IP 地址 :${normal} ${IP}${normal}"
 
 logofile=${ARCHEY_LOGO_FILE:-"${HOME}/.config/archey-logo"}
 if [ -a "$logofile" ]
@@ -176,19 +113,19 @@ else
 # The ${foo#  } is a cheat so that it lines up here as well
 # as when run.
   echo -e "
-${GREEN#  }                 ###               ${fieldlist[0]}
-${GREEN#  }               ####                ${fieldlist[1]}
-${GREEN#  }               ###                 ${fieldlist[2]}
-${GREEN#  }       #######    #######          ${fieldlist[3]}
-${YELLOW# }     ######################        ${fieldlist[4]}
-${YELLOW# }    #####################          ${fieldlist[5]}
-${RED#    }    ####################           ${fieldlist[6]}
-${RED#    }    ####################           ${fieldlist[7]}
-${RED#    }    #####################          ${fieldlist[8]}
-${PURPLE# }     ######################        ${fieldlist[9]}
-${PURPLE# }      ####################         ${fieldlist[10]}
-${BLUE#   }        ################           ${fieldlist[11]}
-${BLUE#   }         ####     #####            ${fieldlist[12]}
+${GREEN#  }                 ###                  ${fieldlist[0]}
+${GREEN#  }               ####                   ${fieldlist[1]}
+${GREEN#  }               ###                    ${fieldlist[2]}
+${GREEN#  }       #######    #######             ${fieldlist[3]}
+${YELLOW# }     ######################           ${fieldlist[4]}
+${YELLOW# }    #####################             ${fieldlist[5]}
+${RED#    }    ####################              ${fieldlist[6]}
+${RED#    }    ####################              ${fieldlist[7]}
+${RED#    }    #####################             ${fieldlist[8]}
+${PURPLE# }     ######################           ${fieldlist[9]}
+${PURPLE# }      ####################            ${fieldlist[10]}
+${BLUE#   }        ################              ${fieldlist[11]}
+${BLUE#   }         ####     #####               ${fieldlist[12]}
 ${normal}
 "
 fi
