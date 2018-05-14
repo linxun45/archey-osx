@@ -8,9 +8,8 @@
 
 ```
 $ cd && git clone https://github.com/athlonreg/archey-osx 
-$ mv -R ./archey-osx /usr/local/ 
-$ ln -s /usr/local/archey-osx/bin/archey /usr/bin/archey 
-$ echo archey >> ./.zshrc
+$ sudo ln -s ./archey-osx/bin/archey /usr/bin/archey 
+$ echo archey >> ./.bashrc
 ```
 
 方法二：
