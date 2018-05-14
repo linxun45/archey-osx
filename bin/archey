@@ -101,7 +101,7 @@ fieldlist[${#fieldlist[@]}]="${textColor}处理器  :${normal} ${Cpu}${normal}"
 fieldlist[${#fieldlist[@]}]="${textColor}内存容量:${normal} ${Ram}${normal}"
 fieldlist[${#fieldlist[@]}]="${textColor}磁盘剩余:${normal} ${Disk}${normal}"
 if [[ ! -z $Battery ]]; then
-    fieldlist[${#fieldlist[@]}]="${textColor}电量剩余:${normal} ${Battery}${normal}%"
+    fieldlist[${#fieldlist[@]}]="${textColor}电量剩余:${normal} ${Battery}${normal}"
 fi
 fieldlist[${#fieldlist[@]}]="${textColor}IP 地址 :${normal} ${IP}${normal}"
 
