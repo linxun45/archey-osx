@@ -4,13 +4,19 @@
 ![](http://ovefvi4g3.bkt.clouddn.com/15262866947300.jpg)
 
 ## Installation/安装
-终端执行
+方法一：
 
 ```
 $ cd && git clone https://github.com/athlonreg/archey-osx 
 $ mv -R ./archey-osx /usr/local/ 
 $ ln -s /usr/local/archey-osx/bin/archey /usr/bin/archey 
 $ echo archey >> ./.zshrc
+```
+
+方法二：
+
+```
+$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/athlonreg/archey-osx/master/bin/archey_install.sh)"
 ```
 
 ## Update/更新
