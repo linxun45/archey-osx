@@ -26,7 +26,7 @@ $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/athlonreg/archey-osx/mas
 终端执行
 
 ```
-$ cd /usr/local/archey-osx/ && gitpull && cd 
+$ cd /usr/local/archey-osx/ && git pull && cd 
 ```
 
 ## License
