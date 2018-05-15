@@ -60,9 +60,11 @@ done
 
 # System Variables
 User=$(whoami)
-Hostname=$(system_profiler SPSoftwareDataType | grep "Computer" | sed 's/      Computer Name: //g')
+Hostname=$(osascript -e "computer name of (system info)")
+# Hostname=$(system_profiler SPSoftwareDataType | grep "Computer" | sed 's/      Computer Name: //g')
 Date=$(date)
-IP=`echo $(ifconfig | grep 'inet.*netmask.*broadcast') | awk '{print $2}'`
+IP=$(osascript -e "IPv4 address of (system info)")
+# IP=`echo $(ifconfig | grep 'inet.*netmask.*broadcast') | awk '{print $2}'`
 System_version=$(system_profiler SPSoftwareDataType | grep "System Version" | sed 's/      System Version: //g')
 Kernel_version="$(uname) $(uname -r)"
 Uptime=$(uptime | sed 's/.*up \([^,]*\), .*/\1/')
