@@ -1,63 +1,5 @@
 #!/bin/bash
 
-# archey-osx 1.6.0 (https://github.com/obihann/archey-osx/)
-
-# test to see if bash supports arrays
-arraytest[0]='test' || (echo 'Error: Arrays are not supported in this version of
-bash.' && exit 2)
-
-# Detect the packager.
-if [ -x /usr/local/bin/brew ]; then
-  detectedpackager=homebrew
-elif command -v port >/dev/null; then
-  detectedpackager=macports
-else
-  detectedpackager=none
-fi
-
-# Get the command line options
-opt_nocolor=f
-opt_force_color=f
-opt_offline=f
-for arg in "$@"
-do
-  case "${arg}" in
-    -p|--packager)
-      packager=$detectedpackager
-      ;;
-    -m|--macports)
-      packager=macports
-      ;;
-    -b|--nocolor)
-      opt_nocolor=t
-      ;;
-    -c|--color)
-      opt_nocolor=f
-      opt_force_color=t
-      ;;
-    -o|--offline)
-        opt_offline=t
-      ;;
-    -h|--help)
-      echo "Archey OS X 1.6.0"
-      echo
-      echo "Usage: $0 [options]"
-      echo
-      echo "  -p --packager  Use auto detected package system (default packager: ${detectedpackager})."
-      echo "  -m --macports  Force use MacPorts as package system."
-      echo "  -b --nocolor   Turn color off."
-      echo "  -c --color     Force the color on (overrides --nocolor)."
-      echo "  -o --offline   Disable the IP address check."
-      exit 0
-      ;;
-    *)
-      echo "Unknown argument: $1" 1>&2
-      echo "For help, use: $0 --help" 1>&2
-      exit 1
-      ;;
-  esac
-done
-
 # System Variables
 User=$(whoami)
 Hostname=$(system_profiler SPSoftwareDataType | grep "Computer" | sed 's/      Computer Name: //g')
@@ -69,7 +11,7 @@ Uptime=$(uptime | sed 's/.*up \([^,]*\), .*/\1/')
 Shell="$SHELL"
 Terminal="$TERM ${TERM_PROGRAM//_/ }"
 Cpu=$(sysctl -n machdep.cpu.brand_string)
-Battery=$(ioreg -c AppleSmartBattery -r | awk '$1~/Capacity/{c[$1]=$3} END{OFMT="%.2f%%"; max=c["\"MaxCapacity\""]; if (max>0) { print 100*c["\"CurrentCapacity\""]/max;} }')
+Battery=$(ioreg -c AppleSmartBattery -r | awk '$1~/Capacity/{c[$1]=$3} END{OFMT="%.2f%"; max=c["\"MaxCapacity\""]; if (max>0) { print 100*c["\"CurrentCapacity\""]/max;} }')
 Ram="$(( $(sysctl -n hw.memsize) / 1024 ** 3  )) GB"
 Disk=$(df | head -2 | tail -1 | awk '{print $5}')
 
