@@ -23,7 +23,7 @@ $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/athlonreg/archey-osx/mas
 ```
 
 ## 安装视频
-[![Watch the video](https://raw.github.com/athlonreg/archey-osx/master/sources/watch.jpg)](https://raw.github.com/athlonreg/archey-osx/master/sources/install.mov)
+[![Watch the video](https://raw.github.com/athlonreg/archey-osx/master/sources/watch.jpg)](http://ovefvi4g3.bkt.clouddn.com/install.mov)
 
 ## Update/更新
 终端执行
