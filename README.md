@@ -1,7 +1,7 @@
 # Archey for OS X
 `Fork`自[obihann](https://github.com/obihann)的一个`macOS`脚本，效果如图
 
-![](http://ovefvi4g3.bkt.clouddn.com/15262866947300.jpg)
+![](http://ovefvi4g3.bkt.clouddn.com/15264792178211.jpg)
 
 ## Installation/安装
 方法一：
