@@ -22,6 +22,9 @@ $ source ./.zshrc
 $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/athlonreg/archey-osx/master/bin/archey_install.sh)"
 ```
 
+## 安装视频
+![](http://ovefvi4g3.bkt.clouddn.com/install.mov)
+
 ## Update/更新
 终端执行
 
