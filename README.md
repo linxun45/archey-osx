@@ -1,7 +1,11 @@
 # Archey for OS X
 `Fork`自[obihann](https://github.com/obihann)的一个`macOS`脚本，效果如图
 
-![](http://ovefvi4g3.bkt.clouddn.com/15264792178211.jpg)
+```
+$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/athlonreg/archey-osx/master/bin/archey)" 
+```
+
+![](http://ovefvi4g3.bkt.clouddn.com/15267038248085.jpg)
 
 ## Installation/安装
 ```
