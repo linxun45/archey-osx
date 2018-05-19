@@ -4,30 +4,28 @@
 ![](http://ovefvi4g3.bkt.clouddn.com/15264792178211.jpg)
 
 ## Installation/安装
-方法一：
-
 ```
 $ cd && git clone https://github.com/athlonreg/archey-osx 
 $ sudo mv archey-osx/ /usr/local/ 
 $ sudo ln -s /usr/local/archey-osx/bin/archey /usr/local/bin/archey 
-$ echo archey >> ./.zshrc && echo archey >> ./.bashrc 
-$ echo "[[ -s ~/.bashrc ]] && source ~/.bash" >> ./.bash_profile 
-$ source ./.bashrc 
+```
+
+> 设置打开终端自启动
+
+```
+$ echo archey >> ./.bashrc 
+$ echo "[[ -s ~/.bashrc ]] && source ~/.bashrc" >> ./.bash_profile 
+$ source ./.bashrc && source ./.bash_profile
+```
+
+> 如果你是`oh-my-zsh`用户
+
+```
+$ echo archey >> ./.zshrc 
 $ source ./.zshrc 
 ```
 
-方法二：
-
-```
-$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/athlonreg/archey-osx/master/bin/archey_install.sh)"
-```
-
-## 安装视频
-[![Watch the video](https://raw.github.com/athlonreg/archey-osx/master/sources/watch.jpg)](http://ovefvi4g3.bkt.clouddn.com/install.mov)
-
 ## Update/更新
-终端执行
-
 ```
 $ cd /usr/local/archey-osx/ && git pull && cd 
 ```
