@@ -264,7 +264,7 @@ else
   echo -e "
 ${normal# }                                      ${User}
 ${normal# }                                      --------------------------------------
-${GREEN#  }                 ####                 ${fieldlist[0]}
+${GREEN#  }                 ###                  ${fieldlist[0]}
 ${GREEN#  }               #####                  ${fieldlist[1]}
 ${GREEN#  }               ####                   ${fieldlist[2]}
 ${GREEN#  }       #######    #######             ${fieldlist[3]}
