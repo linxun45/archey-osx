@@ -238,7 +238,6 @@ then
   normal=$(tput    sgr0 2>/dev/null)
 fi
 
-fieldlist[${#fieldlist[@]}]="${textColor}主机名   :${normal} ${User}${normal}"
 fieldlist[${#fieldlist[@]}]="${textColor}型号     :${normal} ${model}${normal}"
 fieldlist[${#fieldlist[@]}]="${textColor}操作系统 :${normal} ${System_version}${normal}"
 fieldlist[${#fieldlist[@]}]="${textColor}内核版本 :${normal} ${Kernel_version}${normal}"
@@ -265,20 +264,19 @@ else
   echo -e "
 ${normal# }                                      ${User}
 ${normal# }                                      --------------------------------------
-${GREEN#  }                    #                 ${fieldlist[0]}
-${GREEN#  }                 ####                 ${fieldlist[1]}
-${GREEN#  }               #####                  ${fieldlist[2]}
-${GREEN#  }               ####                   ${fieldlist[3]}
-${GREEN#  }       #######    #######             ${fieldlist[4]}
-${YELLOW# }     ######################           ${fieldlist[5]}
-${YELLOW# }    #####################             ${fieldlist[6]}
+${GREEN#  }                 ####                 ${fieldlist[0]}
+${GREEN#  }               #####                  ${fieldlist[1]}
+${GREEN#  }               ####                   ${fieldlist[2]}
+${GREEN#  }       #######    #######             ${fieldlist[3]}
+${YELLOW# }     ######################           ${fieldlist[4]}
+${YELLOW# }    #####################             ${fieldlist[5]}
+${RED#    }    ####################              ${fieldlist[6]}
 ${RED#    }    ####################              ${fieldlist[7]}
-${RED#    }    ####################              ${fieldlist[8]}
-${RED#    }    #####################             ${fieldlist[9]}
-${PURPLE# }     ######################           ${fieldlist[10]}
-${PURPLE# }      ####################            ${fieldlist[11]}
-${BLUE#   }        ################              ${fieldlist[12]}
-${BLUE#   }         ####     #####               ${fieldlist[13]}
+${RED#    }    #####################             ${fieldlist[8]}
+${PURPLE# }     ######################           ${fieldlist[9]}
+${PURPLE# }      ####################            ${fieldlist[10]}
+${BLUE#   }        ################              ${fieldlist[11]}
+${BLUE#   }         ####     #####               ${fieldlist[12]}
 ${normal}
 "
 fi
