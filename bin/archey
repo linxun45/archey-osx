@@ -148,33 +148,35 @@ disk_total="$(df -h | head -2 | tail -1 | awk '{print $2}' | sed 's/i/B/g')(Tota
 disk_used="$(df -h | head -2 | tail -1 | awk '{print $4}' | sed 's/i/B/g')(Avai)"
 Disk="$disk_used / $disk_total"
 
+
 # GPU
 # resolution
-if type -p screenresolution >/dev/null; then
-  resolution="$(screenresolution get 2>&1 | awk '/Display/ {printf $6 "Hz, "}')"
-  resolution="${resolution//x??@/ @ }"
-
-else
-  resolution="$(system_profiler SPDisplaysDataType |\
-          awk '/Resolution:/ {printf $2"x"$4" @ "$6"Hz, "}')"
-fi
-
-# If no refresh rate is empty.
-[[ "$resolution" == *"@ Hz"* ]] && \
-  resolution="${resolution//@ Hz}"
-
-[[ "${scale_factor%.*}" == 2 ]] && \
-  resolution="${resolution// @/@2x @}"
-
-if [[ "$refresh_rate" == "off" ]]; then
-  resolution="${resolution// @ [0-9][0-9]Hz}"
-  resolution="${resolution// @ [0-9][0-9][0-9]Hz}"
-fi
-
-[[ "$resolution" == *"0Hz"* ]] && \
-  resolution="${resolution// @ 0Hz}"
-resolution="${resolution%,*}"
+resolution="$(system_profiler SPDisplaysDataType | grep Resolution | sed 's/          Resolution: //g')"
 gpu="$(system_profiler SPDisplaysDataType | awk -F': ' '/^\ *Chipset Model:/ {printf $2 ", "}') ${resolution}"
+#if type -p screenresolution >/dev/null; then
+#  resolution="$(screenresolution get 2>&1 | awk '/Display/ {printf $6 "Hz, "}')"
+#  resolution="${resolution//x??@/ @ }"
+#
+#else
+#  resolution="$(system_profiler SPDisplaysDataType |\
+#          awk '/Resolution:/ {printf $2"x"$4" @ "$6"Hz, "}')"
+#fi
+#
+## If no refresh rate is empty.
+#[[ "$resolution" == *"@ Hz"* ]] && \
+#  resolution="${resolution//@ Hz}"
+#
+#[[ "${scale_factor%.*}" == 2 ]] && \
+#  resolution="${resolution// @/@2x @}"
+#
+#if [[ "$refresh_rate" == "off" ]]; then
+#  resolution="${resolution// @ [0-9][0-9]Hz}"
+#  resolution="${resolution// @ [0-9][0-9][0-9]Hz}"
+#fi
+#
+#[[ "$resolution" == *"0Hz"* ]] && \
+#  resolution="${resolution// @ 0Hz}"
+#resolution="${resolution%,*}"
 
 # Terminal Font
 term_font="${Terminal}"
