@@ -130,8 +130,18 @@ Uptime=$(uptime | sed 's/.*up \([^,]*\), .*/\1/')
 Shell="$SHELL"
 Terminal="$TERM ${TERM_PROGRAM//_/ }"
 Cpu="$(sysctl -n machdep.cpu.brand_string | sed 's/(R)//g' | sed 's/(TM)//g' | sed 's/CPU @ //g') x (${cores})"
-Battery=$(ioreg -c AppleSmartBattery -r | awk '$1~/Capacity/{c[$1]=$3} END{OFMT="%.2f%"; max=c["\"MaxCapacity\""]; if (max>0) { print 100*c["\"CurrentCapacity\""]/max;} }')
 memory="${mem_used}MB(Avai) / ${mem_total}MB(Total)"
+
+# Battery
+Battery=$(ioreg -c AppleSmartBattery -r | awk '$1~/Capacity/{c[$1]=$3} END{OFMT="%.2f%"; max=c["\"MaxCapacity\""]; if (max>0) { print 100*c["\"CurrentCapacity\""]/max;} }')
+batterystatus=$(pmset -g batt | sed -n '2p' | awk '{print $4}' | sed 's/;//g')
+if [[ $batterystatus == discharging ]] ; then 
+  batterystatus="未充电"
+elif [[ $batterystatus == charging ]] ; then 
+  batterystatus="充电中"
+else 
+  batterystatus="充电完成"
+fi
 
 # disk
 disk_total="$(df -h | head -2 | tail -1 | awk '{print $2}' | sed 's/i/B/g')(Total)"
@@ -249,7 +259,7 @@ fieldlist[${#fieldlist[@]}]="${textColor}显卡     :${normal} ${gpu}${normal}"
 fieldlist[${#fieldlist[@]}]="${textColor}内存     :${normal} ${memory}${normal}"
 fieldlist[${#fieldlist[@]}]="${textColor}磁盘     :${normal} ${Disk}${normal}"
 if [[ ! -z $Battery ]]; then
-    fieldlist[${#fieldlist[@]}]="${textColor}剩余电量 :${normal} ${Battery}${normal}%"
+    fieldlist[${#fieldlist[@]}]="${textColor}剩余电量 :${normal} ${Battery}%  /  ${batterystatus}${normal}"
 fi
 fieldlist[${#fieldlist[@]}]="${textColor}IP 地址  :${normal} ${IP}${normal}"
 fieldlist[${#fieldlist[@]}]="${textColor}当前终端 :${normal} ${Terminal}${term_font}${normal}"
