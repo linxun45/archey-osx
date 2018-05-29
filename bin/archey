@@ -122,8 +122,10 @@ User="$(osascript -e "computer name of (system info)")"
 # Hostname=$(osascript -e "computer name of (system info)")
 # Hostname=$(system_profiler SPSoftwareDataType | grep "Computer" | sed 's/      Computer Name: //g')
 Date=$(date | sed 's/CST//g')
-IP=$(osascript -e "IPv4 address of (system info)")
+# IP=$(osascript -e "IPv4 address of (system info)")
 # IP=`echo $(ifconfig | grep 'inet.*netmask.*broadcast') | awk '{print $2}'`
+Intranet=$(osascript -e "IPv4 address of (system info)")
+Public=$(dig +short myip.opendns.com @resolver1.opendns.com)
 System_version="$codename $osx_version $osx_build"
 Kernel_version="$(uname) $(uname -r)"
 Uptime=$(uptime | sed 's/.*up \([^,]*\), .*/\1/')
@@ -263,7 +265,7 @@ fieldlist[${#fieldlist[@]}]="${textColor}磁盘     :${normal} ${Disk}${normal}"
 if [[ ! -z $Battery ]]; then
     fieldlist[${#fieldlist[@]}]="${textColor}剩余电量 :${normal} ${Battery}%  /  ${batterystatus}${normal}"
 fi
-fieldlist[${#fieldlist[@]}]="${textColor}IP 地址  :${normal} ${IP}${normal}"
+fieldlist[${#fieldlist[@]}]="${textColor}IP 地址  :${normal} 公网 ${Public} / 内网 ${Intranet}${normal}"
 fieldlist[${#fieldlist[@]}]="${textColor}当前终端 :${normal} ${Terminal}${term_font}${normal}"
 
 logofile=${ARCHEY_LOGO_FILE:-"${HOME}/.config/archey-logo"}
