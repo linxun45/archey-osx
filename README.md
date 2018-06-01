@@ -17,15 +17,15 @@ $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/athlonreg/archey-osx/mas
 ```
 $ cd && git clone https://github.com/athlonreg/archey-osx 
 $ sudo mv archey-osx/ /usr/local/ 
-$ sudo ln -s /usr/local/archey-osx/bin/archey /usr/local/bin/archey //中文版
-$ sudo ln -s /usr/local/archey-osx/bin/archey-en /usr/local/bin/archey-en //英文版
+$ sudo ln -s /usr/local/archey-osx/bin/archey /usr/local/bin/archey #中文版
+$ sudo ln -s /usr/local/archey-osx/bin/archey-en /usr/local/bin/archey-en #英文版
 ```
 
 > 设置打开终端自启动
 
 ```
-$ echo archey >> ./.bashrc //中文版
-$ echo archey-en >> ./.bashrc //英文版
+$ echo archey >> ./.bashrc #中文版
+$ echo archey-en >> ./.bashrc #英文版
 $ echo "[[ -s ~/.bashrc ]] && source ~/.bashrc" >> ./.bash_profile 
 $ source ./.bashrc && source ./.bash_profile 
 ```
@@ -33,8 +33,8 @@ $ source ./.bashrc && source ./.bash_profile
 > 如果你是`oh-my-zsh`用户
 
 ```
-$ echo archey >> ./.zshrc //中文版
-$ echo archey-en >> ./.zshrc //英文版
+$ echo archey >> ./.zshrc #中文版
+$ echo archey-en >> ./.zshrc #英文版
 $ source ./.zshrc 
 ```
 

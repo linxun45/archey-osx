@@ -75,8 +75,8 @@ osx_build="$(sw_vers -buildVersion)"
 #  *)        codename="macOS" ;;
 #esac
 
-# Define OS X Short Version 
-codename=$(xxd -ps /Applications/Utilities/System\ Information.app/Contents/MacOS/System\ Information|tr -d '\n'|perl -nle "print $& if m{00$(sw_vers -productVersion|awk -F '.' '{printf $1"."$2}'|xxd -ps)00\K.*?00}"|xxd -r -p)
+# define OS Short Version 
+codename=$(xxd -ps /Applications/Utilities/System\ Information.app/Contents/MacOS/System\ Information | tr -d '\n' | perl -nle "print $& if m{00$(sw_vers -productVersion | awk -F '.' '{printf $1"."$2}' | xxd -ps)00\K.*?00}" | xxd -r -p)
 
 mem_total="$(($(sysctl -n hw.memsize) / 1024 / 1024))"
 mem_wired="$(vm_stat | awk '/wired/ { print $4 }')"
