@@ -2,10 +2,16 @@
 `Fork`自[obihann](https://github.com/obihann)的一个`macOS`脚本，效果如图
 
 ```
+$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/athlonreg/archey-osx/master/bin/archey-en)" 
+```
+
+![screen-en.png](https://raw.githubusercontent.com/athlonreg/archey-osx/master/screen/screen-en.png)
+
+```
 $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/athlonreg/archey-osx/master/bin/archey)" 
 ```
 
-![](http://ovefvi4g3.bkt.clouddn.com/15267038248085.jpg)
+![screen-zh_CN.png](https://raw.githubusercontent.com/athlonreg/archey-osx/master/screen/screen-zh_CN.png)
 
 ## Installation/安装
 ```
