@@ -122,9 +122,10 @@ else
 fi
 
 # System Variables
-User="$(osascript -e "computer name of (system info)")"
+# User="$(osascript -e "computer name of (system info)")"
 # Hostname=$(osascript -e "computer name of (system info)")
 # Hostname=$(system_profiler SPSoftwareDataType | grep "Computer" | sed 's/      Computer Name: //g')
+User=$(echo $(osascript -e "computer name of (system info)") | sed "s/-/ /g") 
 Date=$(date | sed 's/CST//g')
 # IP=$(osascript -e "IPv4 address of (system info)")
 # IP=`echo $(ifconfig | grep 'inet.*netmask.*broadcast') | awk '{print $2}'`
@@ -184,8 +185,6 @@ gpu="$(system_profiler SPDisplaysDataType | awk -F': ' '/^\ *Chipset Model:/ {pr
 #  resolution="${resolution// @ 0Hz}"
 #resolution="${resolution%,*}"
 
-# Terminal Font
-term_font="${Terminal}"
 case "$term" in
     "Apple_Terminal")
       term_font="$(osascript <<END
@@ -263,14 +262,14 @@ fieldlist[${#fieldlist[@]}]="${textColor}开机时间 :${normal} ${uptime}${norm
 fieldlist[${#fieldlist[@]}]="${textColor}Shell    :${normal} ${Shell}${normal}"
 fieldlist[${#fieldlist[@]}]="${textColor}当前时间 :${normal} ${Date}${normal}"
 fieldlist[${#fieldlist[@]}]="${textColor}处理器   :${normal} ${Cpu}${normal}"
-fieldlist[${#fieldlist[@]}]="${textColor}显卡     :${normal} ${gpu}${normal}"
 fieldlist[${#fieldlist[@]}]="${textColor}内存     :${normal} ${memory}${normal}"
 fieldlist[${#fieldlist[@]}]="${textColor}磁盘     :${normal} ${Disk}${normal}"
 if [[ ! -z $Battery ]]; then
     fieldlist[${#fieldlist[@]}]="${textColor}剩余电量 :${normal} ${Battery}%  /  ${batterystatus}${normal}"
 fi
 fieldlist[${#fieldlist[@]}]="${textColor}IP 地址  :${normal} 公网 ${Public} / 内网 ${Intranet}${normal}"
-fieldlist[${#fieldlist[@]}]="${textColor}当前终端 :${normal} ${Terminal}${term_font}${normal}"
+fieldlist[${#fieldlist[@]}]="${textColor}当前终端 :${normal} ${Terminal}${normal}"
+fieldlist[${#fieldlist[@]}]="${textColor}显卡设备 :${normal} ${gpu}${normal}"
 
 logofile=${ARCHEY_LOGO_FILE:-"${HOME}/.config/archey-logo"}
 if [ -a "$logofile" ]
