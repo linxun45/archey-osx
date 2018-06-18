@@ -134,7 +134,7 @@ System_version="$codename $osx_version $osx_build"
 Kernel_version="$(uname) $(uname -r)"
 Uptime=$(uptime | sed 's/.*up \([^,]*\), .*/\1/')
 Shell="$SHELL"
-Terminal="$TERM ${TERM_PROGRAM//_/ }"
+Terminal="$TERM by ${TERM_PROGRAM//_/ }" | sed 's/.app//g'
 Cpu="$(sysctl -n machdep.cpu.brand_string | sed 's/(R)//g' | sed 's/(TM)//g' | sed 's/CPU @ //g') x (${cores})"
 Battery=$(ioreg -c AppleSmartBattery -r | awk '$1~/Capacity/{c[$1]=$3} END{OFMT="%.2f%"; max=c["\"MaxCapacity\""]; if (max>0) { print 100*c["\"CurrentCapacity\""]/max;} }')
 batterystatus=$(pmset -g batt | sed -n '2p' | awk '{print $4}' | sed 's/;//g')

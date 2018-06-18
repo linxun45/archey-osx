@@ -135,7 +135,7 @@ System_version="$codename $osx_version $osx_build"
 Kernel_version="$(uname) $(uname -r)"
 Uptime=$(uptime | sed 's/.*up \([^,]*\), .*/\1/')
 Shell="$SHELL"
-Terminal="$TERM ${TERM_PROGRAM//_/ }"
+Terminal="$TERM by ${TERM_PROGRAM//_/ }" | sed 's/.app//g'
 Cpu="$(sysctl -n machdep.cpu.brand_string | sed 's/(R)//g' | sed 's/(TM)//g' | sed 's/CPU @ //g') x (${cores})"
 memory="${mem_used}MB(Avai) / ${mem_total}MB(Total)"
 
