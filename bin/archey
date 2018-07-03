@@ -158,9 +158,15 @@ Disk="$disk_used / $disk_total"
 
 
 # GPU
-# resolution
-resolution="$(system_profiler SPDisplaysDataType | grep Resolution | sed 's/          Resolution: //g')"
+# main resolution
+resolution="$(system_profiler SPDisplaysDataType | grep Resolution | awk 'NF+=1' | sed 's/Resolution://g' | cut -b 2- | sed -e 's/, /\n/g' | sed -n 1p)"
 gpu="$(system_profiler SPDisplaysDataType | awk -F': ' '/^\ *Chipset Model:/ {printf $2 ", "}') ${resolution}"
+
+# extension resolution
+displayext="$(system_profiler SPDisplaysDataType | grep Resolution | awk 'NF+=1' | sed 's/Resolution://g' | cut -b 2- | sed -e 's/, /\n/g' | sed -n 2p)"
+if [[ -z $displayext ]] ; then 
+  displayext=$resolution
+fi
 #if type -p screenresolution >/dev/null; then
 #  resolution="$(screenresolution get 2>&1 | awk '/Display/ {printf $6 "Hz, "}')"
 #  resolution="${resolution//x??@/ @ }"
@@ -271,6 +277,7 @@ fi
 fieldlist[${#fieldlist[@]}]="${textColor}IP 地址  :${normal} 公网 ${Public} / 内网 ${Intranet}${normal}"
 fieldlist[${#fieldlist[@]}]="${textColor}当前终端 :${normal} ${Terminal}${normal}"
 fieldlist[${#fieldlist[@]}]="${textColor}显卡设备 :${normal} ${gpu}${normal}"
+fieldlist[${#fieldlist[@]}]="${textColor}显示扩展 :${normal} ${displayext}${normal}"
 
 logofile=${ARCHEY_LOGO_FILE:-"${HOME}/.config/archey-logo"}
 if [ -a "$logofile" ]
@@ -281,20 +288,21 @@ else
 # as when run.
   echo -e "
 ${normal# }                                      ${User}
-${normal# }                                      --------------------------------------
-${GREEN#  }                 ###                  ${fieldlist[0]}
-${GREEN#  }               ####                   ${fieldlist[1]}
-${GREEN#  }               ###                    ${fieldlist[2]}
-${GREEN#  }       #######    #######             ${fieldlist[3]}
-${YELLOW# }     ######################           ${fieldlist[4]}
-${YELLOW# }    #####################             ${fieldlist[5]}
-${RED#    }    ####################              ${fieldlist[6]}
+${normal# }                                      ----------------------------------------------
+${GREEN#  }                                      ${fieldlist[0]}
+${GREEN#  }                 ###                  ${fieldlist[1]}
+${GREEN#  }               ####                   ${fieldlist[2]}
+${GREEN#  }               ###                    ${fieldlist[3]}
+${GREEN#  }       #######    #######             ${fieldlist[4]}
+${YELLOW# }     ######################           ${fieldlist[5]}
+${YELLOW# }    #####################             ${fieldlist[6]}
 ${RED#    }    ####################              ${fieldlist[7]}
-${RED#    }    #####################             ${fieldlist[8]}
-${PURPLE# }     ######################           ${fieldlist[9]}
-${PURPLE# }      ####################            ${fieldlist[10]}
-${BLUE#   }        ################              ${fieldlist[11]}
-${BLUE#   }         ####     #####               ${fieldlist[12]}
-${normal}
+${RED#    }    ####################              ${fieldlist[8]}
+${RED#    }    #####################             ${fieldlist[9]}
+${PURPLE# }     ######################           ${fieldlist[10]}
+${PURPLE# }      ####################            ${fieldlist[11]}
+${BLUE#   }        ################              ${fieldlist[12]}
+${BLUE#   }         ####     #####               ${fieldlist[13]}
+${normal}                                      
 "
 fi
