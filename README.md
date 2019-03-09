@@ -24,18 +24,18 @@ $ sudo ln -s /usr/local/archey-osx/bin/archey-en /usr/local/bin/archey-en #英�
 > 设置打开终端自启动
 
 ```
-$ echo archey >> ./.bashrc #中文版
-$ echo archey-en >> ./.bashrc #英文版
-$ echo "[[ -s ~/.bashrc ]] && source ~/.bashrc" >> ./.bash_profile 
-$ source ./.bashrc && source ./.bash_profile 
+$ echo archey >> ~/.bashrc #中文版
+$ echo archey-en >> ~/.bashrc #英文版
+$ echo "[[ -s ~/.bashrc ]] && source ~/.bashrc" >> ~/.bash_profile 
+$ source ~/.bashrc && source ~/.bash_profile 
 ```
 
 > 如果你是`oh-my-zsh`用户
 
 ```
-$ echo archey >> ./.zshrc #中文版
-$ echo archey-en >> ./.zshrc #英文版
-$ source ./.zshrc 
+$ echo archey >> ~/.zshrc #中文版
+$ echo archey-en >> ~/.zshrc #英文版
+$ source ~/.zshrc 
 ```
 
 ## Update/更新
