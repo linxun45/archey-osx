@@ -108,14 +108,15 @@ disk_total="$(df -h | head -2 | tail -1 | awk '{print $2}' | sed 's/i/B/g')(Tota
 disk_used="$(df -h | head -2 | tail -1 | awk '{print $4}' | sed 's/i/B/g')(Avai)"
 Disk="$disk_used / $disk_total"
 
-# Display
-displayNum=$(cat -n ~/Desktop/grap.plist | grep Displays | grep -v Graphics | awk '{print $1}')
-((displayNum++))
-displayModel=$(cat ~/Desktop/grap.plist| sed -n ${displayNum}p | awk '{print $1}' | sed 's/://g')
-
 # GPU
-# main resolution
 system_profiler SPDisplaysDataType 1> /tmp/grap.plist 2>/dev/null
+
+# Display
+displayNum=$(cat -n /tmp/grap.plist | grep Displays | grep -v Graphics | awk '{print $1}')
+((displayNum++))
+displayModel=$(cat /tmp/grap.plist | sed -n ${displayNum}p | awk '{print $1}' | sed 's/://g')
+
+# main resolution
 resolution="$(cat /tmp/grap.plist | grep Resolution | awk 'NF+=1' | sed 's/Resolution://g' | cut -b 2- | sed -e 's/, /\n/g' | sed -n 1p | sed 's/          //g')"
 vram="$(cat /tmp/grap.plist | grep VRAM | awk -F': ' '{print "(" $2 "), "}')"
 gpu="$(cat /tmp/grap.plist | awk -F': ' '/^\ *Chipset Model:/ {printf $2}') ${vram}${resolution}"
