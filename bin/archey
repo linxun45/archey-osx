@@ -101,7 +101,7 @@ Terminal="$TERM by ${TERM_PROGRAM//_/ }"
 Cpu="$(sysctl -n machdep.cpu.brand_string | sed 's/(R)//g' | sed 's/(TM)//g' | sed 's/CPU @ //g') x (${cores})"
 Battery=$(ioreg -c AppleSmartBattery -r | awk '$1~/Capacity/{c[$1]=$3} END{OFMT="%.2f%"; max=c["\"MaxCapacity\""]; if (max>0) { print 100*c["\"CurrentCapacity\""]/max;} }')
 batterystatus=$(pmset -g batt | sed -n '2p' | awk '{print $4}' | sed 's/;//g')
-memory="${mem_used}MB(Avai) / ${mem_total}MB(Total)"
+memory="${mem_used}MB(可用) / ${mem_total}MB(共计)"
 
 # Battery
 if [[ $batterystatus == discharging ]] ; then 
@@ -113,8 +113,8 @@ else
 fi
 
 # disk
-disk_total="$(df -h | head -2 | tail -1 | awk '{print $2}' | sed 's/i/B/g')(Total)"
-disk_used="$(df -h | head -2 | tail -1 | awk '{print $4}' | sed 's/i/B/g')(Avai)"
+disk_total="$(df -h | head -2 | tail -1 | awk '{print $2}' | sed 's/i/B/g')(共计)"
+disk_used="$(df -h | head -2 | tail -1 | awk '{print $4}' | sed 's/i/B/g')(可用)"
 Disk="$disk_used / $disk_total"
 
 # GPU
